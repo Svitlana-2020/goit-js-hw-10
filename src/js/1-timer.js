@@ -8,6 +8,9 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
+import imgUrl from '../img/icon.svg'
+// document.getElementById('hero-img').src = imgUrl
+
 const options = {
     enableTime: true,
     time_24hr: true,
@@ -28,6 +31,10 @@ const options = {
   let userSelectedDate = [];
   const Selecteddate = new Date(userSelectedDate);
   let userSelectedMilli = Selecteddate.getTime();
+  const dataDay = document.querySelector('[data-days]');
+  const dataHour = document.querySelector('[data-hours]');
+  const dataMinutes = document.querySelector('[data-minutes]');
+  const dataSeconds = document.querySelector('[data-seconds]');
 //   const timer = setTimeout(convertMs(userSelectedMilli), 1000)
 
   console.log(options.defaultDate, defaultDateMilli);
@@ -47,8 +54,8 @@ function dateCheck(selectedDates) {
             messageColor: 'white',
             messageLineHeight: '150%',
             backgroundColor: '#ef4040',
-            iconUrl: '../img/icon.svg',
-            position: 'topRight',
+            icon: 'imgUrl',
+            position: 'topRight'
         });
 
         startButton.disabled = true;
@@ -57,7 +64,7 @@ function dateCheck(selectedDates) {
         startButton.disabled = false;
         userSelectedDate = selectedDates;
         userSelectedMilli = selectedDateMilli - defaultDateMilli;
-        console.log(userSelectedDate)
+        // console.log(userSelectedDate)
     }
 }
 
@@ -84,29 +91,33 @@ function convertMs(ms) {
     startButton.disabled = true;
     inputForm.disabled = true;
 
-    userSelectedMilli -= 1000;
+    userSelectedMilli -= 1000
+
+    if (userSelectedMilli < 1000) {
+      clearInterval(timer);
+      startButton.disabled = false;
+      inputForm.disabled = false;
+    
+}
 
     let remainTime = convertMs(userSelectedMilli);
     remainTime = addLeadingZero(remainTime);
 
-                document.querySelector('[data-days]').setAttribute('data-days', remainTime.days);
-                document.querySelector('[data-hours]').setAttribute('data-hours', remainTime.hours);
-                document.querySelector('[data-minutes]').setAttribute('data-minutes', remainTime.minutes);
-                document.querySelector('[data-seconds]').setAttribute('data-seconds', remainTime.seconds);
+                dataDay.setAttribute('data-days', remainTime.days);
+                dataHour.setAttribute('data-hours', remainTime.hours);
+                dataMinutes.setAttribute('data-minutes', remainTime.minutes);
+                dataSeconds.setAttribute('data-seconds', remainTime.seconds);
 
-                document.querySelector('[data-days]').textContent = remainTime.days;
-                document.querySelector('[data-hours]').textContent = remainTime.hours;
-                document.querySelector('[data-minutes]').textContent = remainTime.minutes;
-                document.querySelector('[data-seconds]').textContent = remainTime.seconds;
+                dataDay.textContent = remainTime.days;
+                dataHour.textContent = remainTime.hours;
+                dataMinutes.textContent = remainTime.minutes;
+                dataSeconds.textContent = remainTime.seconds;
 
-                if (userSelectedMilli === 0) {
-                    clearInterval(timer);
-                    startButton.disabled = true;
-  }}
+}
   
   startButton.addEventListener('click', () => {
-    settingTime();
     timer = setInterval(settingTime, 1000);
+
 });
 
 function addLeadingZero(remainTime) {
