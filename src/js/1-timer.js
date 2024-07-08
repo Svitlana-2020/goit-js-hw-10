@@ -99,7 +99,7 @@ function convertMs(ms) {
                 document.querySelector('[data-minutes]').textContent = remainTime.minutes;
                 document.querySelector('[data-seconds]').textContent = remainTime.seconds;
 
-                if (userSelectedMilli = 0) {
+                if (userSelectedMilli === 0) {
                     clearInterval(timer);
                     startButton.disabled = true;
   }}
