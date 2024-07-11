@@ -12,41 +12,23 @@ const rejectedBtn = document.querySelector('input[value="rejected"]')
 let yesBtn;
 
 
-submitBtn.addEventListener('click', (e) => {
+formForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let inputValue = inputForm.value;
-console.log(inputValue);
-    createPromise(inputValue)})
-
-    fulfilledBtn.addEventListener('change', (e) => {
-        if (e.target.checked) {
-            yesBtn = true;
-        }
-        console.log(yesBtn)
-    })
-    
-    rejectedBtn.addEventListener('change', (e) => {
-        if (e.target.checked) {
-            yesBtn = false;
-        }
-        console.log(yesBtn)
-    })
-
-function createPromise(value) {
-
+    let stateBtn = e.target.elements['state'].value;
     return new Promise ((resolve, reject) => {
         setTimeout(() => {
-            if (yesBtn) {
-                resolve(`Fulfilled promise in ${value}ms`);
+            if (stateBtn !== "rejected") {
+                resolve(`Fulfilled promise in ${inputValue}ms`);
             }
             else {
-                reject(`Rejected promise in ${value}ms`);
+                reject(`Rejected promise in ${inputValue}ms`);
             }
-          }, Number(value));
+          }, Number(inputValue));
     })
     .then (result => 
         iziToast.show({
-            message: `✅ Fulfilled promise in ${value}ms`,
+            message: `✅ Fulfilled promise in ${inputValue}ms`,
             messageColor: 'black',
             messageLineHeight: '150%',
             position: 'topRight',
@@ -54,11 +36,56 @@ function createPromise(value) {
 
     .catch (error => 
         iziToast.show({
-    message: `❌ Rejected promise in ${value}ms`,
+    message: `❌ Rejected promise in ${inputValue}ms`,
     messageColor: 'black',
     messageLineHeight: '150%',
     position: 'topRight',
 })
 )
 }
+)
+
+    // fulfilledBtn.addEventListener('change', (e) => {
+    //     if (e.target.checked) {
+    //         yesBtn = true;
+    //     }
+    //     console.log(yesBtn)
+    // })
+    
+    // rejectedBtn.addEventListener('change', (e) => {
+    //     if (e.target.checked) {
+    //         yesBtn = false;
+    //     }
+    //     console.log(yesBtn)
+    // })
+
+// function createPromise(value) {
+
+//     return new Promise ((resolve, reject) => {
+//         setTimeout(() => {
+//             if (yesBtn) {
+//                 resolve(`Fulfilled promise in ${value}ms`);
+//             }
+//             else {
+//                 reject(`Rejected promise in ${value}ms`);
+//             }
+//           }, Number(value));
+//     })
+//     .then (result => 
+//         iziToast.show({
+//             message: `✅ Fulfilled promise in ${value}ms`,
+//             messageColor: 'black',
+//             messageLineHeight: '150%',
+//             position: 'topRight',
+//         }))
+
+//     .catch (error => 
+//         iziToast.show({
+//     message: `❌ Rejected promise in ${value}ms`,
+//     messageColor: 'black',
+//     messageLineHeight: '150%',
+//     position: 'topRight',
+// })
+// )
+// }
 
