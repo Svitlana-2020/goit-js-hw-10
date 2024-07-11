@@ -8,8 +8,9 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
-import imgUrl from '../img/icon.svg'
-// document.getElementById('hero-img').src = imgUrl
+import imgUrl from '../img/icon.svg';
+console.log(imgUrl)
+
 
 
 
@@ -40,14 +41,6 @@ const options = {
           const dataSeconds = document.querySelector('[data-seconds]');
 
 
-
-startButton.addEventListener('click', () => {
-            timer;
-        
-        });
-
-
-
 function dateCheck(selectedDates) {
 const currentDate = options.defaultDate;
 console.log(currentDate);
@@ -65,7 +58,7 @@ else {
                 messageColor: 'white',
                 messageLineHeight: '150%',
                 backgroundColor: '#ef4040',
-                icon: imgUrl,
+                iconUrl: 'imgUrl',
                 position: 'topRight'
             });
     
@@ -74,17 +67,23 @@ else {
 }
 
 function settingTime (remainTime) {
+            
+            inputForm.disabled = true;
+            startButton.disabled = true;
 
-      //   let userSelectedDateMilli = userSelectedDate.getTime();
-      //   console.log(userSelectedDateMilli);
-      //   let dateNow = Date.now();
-      //   console.log(dateNow);
+  let userSelectedDateMilli = userSelectedDate.getTime();
+        
+      let dateNow = Date.now();
+      remainTime = userSelectedDateMilli - dateNow;
 
-      //  let remainTime = userSelectedDateMilli - dateNow;
-      //   console.log(remainTime)
+      if (remainTime <= 1000) {
+                clearInterval(timer);
+                startButton.disabled = false;
+                inputForm.disabled = false;
+            }
 
-      // remainTime = convertMs(remainTime);
-      // remainTime = addLeadingZero(remainTime);
+      remainTime = convertMs(remainTime);
+      remainTime = addLeadingZero(remainTime);
 
                 dataDay.setAttribute('data-days', remainTime.days);
                 dataHour.setAttribute('data-hours', remainTime.hours);
@@ -131,22 +130,22 @@ function addLeadingZero(remainTime) {
     return remainTime;
 }
 
-timer = setInterval(() => {
-  let userSelectedDateMilli = userSelectedDate.getTime();
-  console.log(userSelectedDateMilli);
-  let dateNow = Date.now();
-  console.log(dateNow);
+// timer = setInterval(() => {
+//   let userSelectedDateMilli = userSelectedDate.getTime();
+//   console.log(userSelectedDateMilli);
+//   let dateNow = Date.now();
+//   console.log(dateNow);
 
- let remainTime = userSelectedDateMilli - dateNow;
-  console.log(remainTime)
+//  let remainTime = userSelectedDateMilli - dateNow;
+//   console.log(remainTime)
 
-remainTime = convertMs(remainTime);
-remainTime = addLeadingZero(remainTime);
-settingTime(remainTime);
+// remainTime = convertMs(remainTime);
+// remainTime = addLeadingZero(remainTime);
+// settingTime(remainTime);
 
-  if (remainTime <= 0) {
-      clearInterval(timer);
-      startButton.disabled = false;
-      inputForm.disabled = false;
-  }
-   }, 1000);
+//   if (remainTime <= 0) {
+//       clearInterval(timer);
+//       startButton.disabled = false;
+//       inputForm.disabled = false;
+//   }
+//    }, 1000);
