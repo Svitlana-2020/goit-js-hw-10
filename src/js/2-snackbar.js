@@ -14,21 +14,22 @@ let yesBtn;
 
 formForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    let inputValue = inputForm.value;
+    let inputValue = Number(inputForm.value);
     let stateBtn = e.target.elements['state'].value;
-    return new Promise ((resolve, reject) => {
-        setTimeout(() => {
-            if (stateBtn !== "rejected") {
-                resolve(`Fulfilled promise in ${inputValue}ms`);
-            }
-            else {
-                reject(`Rejected promise in ${inputValue}ms`);
-            }
-          }, Number(inputValue));
-    })
+    createPromise(inputValue, stateBtn)
+    // return new Promise ((resolve, reject) => {
+    //     setTimeout(() => {
+    //         if (stateBtn !== "rejected") {
+    //             resolve(`Fulfilled promise in ${inputValue}ms`);
+    //         }
+    //         else {
+    //             reject(`Rejected promise in ${inputValue}ms`);
+    //         }
+    //       }, Number(inputValue));
+    // })
     .then (result => 
         iziToast.show({
-            message: `✅ Fulfilled promise in ${inputValue}ms`,
+            message: `✅ Fulfilled promise in ${result}ms`,
             messageColor: 'black',
             messageLineHeight: '150%',
             position: 'topRight',
@@ -36,7 +37,7 @@ formForm.addEventListener('submit', (e) => {
 
     .catch (error => 
         iziToast.show({
-    message: `❌ Rejected promise in ${inputValue}ms`,
+    message: `❌ Rejected promise in ${error}ms`,
     messageColor: 'black',
     messageLineHeight: '150%',
     position: 'topRight',
@@ -44,6 +45,19 @@ formForm.addEventListener('submit', (e) => {
 )
 }
 )
+
+function createPromise (inputValue, stateBtn) {
+    return new Promise ((resolve, reject) => {
+        setTimeout(() => {
+            if (stateBtn !== "rejected") {
+                resolve(inputValue);
+            }
+            else {
+                reject(inputValue);
+            }
+          }, inputValue);
+    })
+}
 
     // fulfilledBtn.addEventListener('change', (e) => {
     //     if (e.target.checked) {
