@@ -8,8 +8,7 @@ import iziToast from "izitoast";
 // Додатковий імпорт стилів
 import "izitoast/dist/css/iziToast.min.css";
 
-import imgUrl from '../img/icon.svg';
-console.log(imgUrl)
+import imgUrl from '../img/octagon.svg';
 
 
 
@@ -32,8 +31,6 @@ const options = {
   const startButton = document.querySelector('button[type="button"]')
   
     let timer;
-    let userSelectedDate = [];
-
 
           const dataDay = document.querySelector('[data-days]');
           const dataHour = document.querySelector('[data-hours]');
@@ -42,10 +39,8 @@ const options = {
 
 
 function dateCheck(selectedDates) {
-const currentDate = options.defaultDate;
-console.log(currentDate);
+const currentDate = Date.now();
 if (currentDate < selectedDates) {
-        userSelectedDate = selectedDates
 
             inputForm.disabled = false;
             startButton.disabled = false;
@@ -58,7 +53,7 @@ else {
                 messageColor: 'white',
                 messageLineHeight: '150%',
                 backgroundColor: '#ef4040',
-                iconUrl: 'imgUrl',
+                iconUrl: imgUrl,
                 position: 'topRight'
             });
     
@@ -66,34 +61,28 @@ else {
 }
 }
 
-function settingTime (remainTime) {
+function settingTime () {
             
             inputForm.disabled = true;
             startButton.disabled = true;
 
-  let userSelectedDateMilli = userSelectedDate.getTime();
+  let userSelectedDateMilli = flatP.selectedDates[0].getTime();
         
       let dateNow = Date.now();
-      remainTime = userSelectedDateMilli - dateNow;
+      const difference = userSelectedDateMilli - dateNow;
 
-      if (remainTime <= 1000) {
-                clearInterval(timer);
-                startButton.disabled = false;
-                inputForm.disabled = false;
-            }
-
-      remainTime = convertMs(remainTime);
-      remainTime = addLeadingZero(remainTime);
-
-                dataDay.setAttribute('data-days', remainTime.days);
-                dataHour.setAttribute('data-hours', remainTime.hours);
-                dataMinutes.setAttribute('data-minutes', remainTime.minutes);
-                dataSeconds.setAttribute('data-seconds', remainTime.seconds);
+      const remainTime = addLeadingZero(convertMs(difference));
 
                 dataDay.textContent = remainTime.days;
                 dataHour.textContent = remainTime.hours;
                 dataMinutes.textContent = remainTime.minutes;
                 dataSeconds.textContent = remainTime.seconds;
+
+                if (difference <= 1000) {
+                  clearInterval(timer);
+                  inputForm.disabled = false;
+              }
+
 }
 
 
